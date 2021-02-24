@@ -1,4 +1,4 @@
-import react, {useState} from 'react';
+import react, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -17,6 +17,8 @@ function App() {
         <h1>Hello  World!</h1>
         
         <Counter></Counter>
+
+        <Users></Users>
         <ul>
           {
             actors.map(actor=><li style={listStyle}>{actor}</li>)
@@ -36,6 +38,25 @@ function App() {
       </div>
     </div>
   );
+}
+
+function Users() {
+  const [users, setUsers] = useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data));
+  }, [])
+  return(
+    <div>
+      <h1>Dynamic Users : {users.length}</h1>
+      <ul>
+        {
+          users.map(user => <li style={listStyle}>{user.name}</li>)
+        }
+      </ul>
+    </div>
+  )
 }
 
 function Counter(){
